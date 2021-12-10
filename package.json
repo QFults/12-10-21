@@ -1,0 +1,23 @@
+{
+  "name": "12-10-21",
+  "version": "1.0.0",
+  "description": "- More on Express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QFults/12-10-21.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QFults/12-10-21/issues"
+  },
+  "homepage": "https://github.com/QFults/12-10-21#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

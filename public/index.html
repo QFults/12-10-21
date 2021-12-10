@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>To-Do List App</h1>
+  <form>
+    <p>
+      <label for="item">item</label>
+      <input type="text" name="item" id="item">
+    </p>
+    <button id="addItem">Add Item</button>
+  </form>
+  <div id="items"></div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    let items = []
+
+    document.getElementById('addItem').addEventListener('click', event => {
+      event.preventDefault()
+
+      const item = {
+        text: document.getElementById('item').value,
+        isDone: false
+      }
+
+      axios.post('/items', item)
+        .then(() => {
+          document.getElementById('item').value = ''
+          getItems()
+        })
+        .catch(err => console.error(err))
+    })
+
+    document.addEventListener('click', event => {
+      if (event.target.className === 'delete') {
+        items = items.filter(item => item.text !== event.target.dataset.text)
+        axios.post('/remove', items)
+          .then(() => {
+            getItems()
+          })
+          .catch(err => console.error(err))
+      }
+    })
+
+    const getItems = () => {
+      axios.get('/items')
+        .then(res => {
+          console.log(res.data)
+          items = res.data
+          document.getElementById('items').innerHTML = ''
+          items.forEach(item => {
+            const itemElem = document.createElement('div')
+            itemElem.innerHTML = `
+          <p>${item.text}</p>
+          <button class="update" data-text="${item.text}">${item.isDone ? 'Done' : 'Not Done'}</button>
+          <button class="delete" data-text="${item.text}">X</button>
+          <hr>
+          `
+            document.getElementById('items').append(itemElem)
+          })
+        })
+        .catch(err => console.error(err))
+    }
+
+    getItems()
+  </script>
+</body>
+
+</html>
